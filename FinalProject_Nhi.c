@@ -14,20 +14,11 @@ struct studentInfo{
 	float GPA;
 };
 
-//swap float numbers
-float swapfloat (float *a, float *b) {
-    float temp = *a;
-    *a = *b;
-    *b = temp;
-    return *a, *b;
-}
-
-//swap strings
-char swapstr (char *str1, char *str2) {
-    char temp[strlen(str1) + 1];
-    strcpy(temp, str1);
-    strcpy(str1, str2);
-    strcpy(str2, temp);
+//swap structure
+void swap_students(struct studentInfo *students, int i, int p) {
+    struct studentInfo temp = students[i];
+    students[i] = students[p];
+    students[p] = temp;
 }
 
 int main(){
@@ -167,19 +158,12 @@ int main(){
         }
         if (p != step)
             {
-                swapfloat(&students[step].GPA, &students[p].GPA);
-                swapstr(students[step].fullName, students[p].fullName);
-                swapstr(students[step].ID, students[p].ID);
-                swapstr(students[step].birthDate, students[p].birthDate);
-                swapfloat(&students[step].algebra, &students[p].algebra);
-                swapfloat(&students[step].calculus, &students[p].calculus);
-                swapfloat(&students[step].basicProgramming, &students[p].basicProgramming);
+                swap_students(students, step, p);
             }
     }
 
     printf("\nStudents list in GPA decreasing order: \n");
     for (int i = 0; i < number; i++) {
-        students[i].GPA = (students[i].algebra + students[i].calculus + students[i].basicProgramming)/3;
         printf("| %10s | %-20s | %10s | %7.2f | %8.2f | %17.2f | %4.2f |\n",
                students[i].ID,
                students[i].fullName,
