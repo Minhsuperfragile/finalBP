@@ -14,6 +14,22 @@ struct studentInfo{
 	float GPA;
 };
 
+//swap float numbers
+float swapfloat (float *a, float *b) {
+    float temp = *a;
+    *a = *b;
+    *b = temp;
+    return *a, *b;
+}
+
+//swap strings
+char swapstr (char *str1, char *str2) {
+    char temp[strlen(str1) + 1];
+    strcpy(temp, str1);
+    strcpy(str1, str2);
+    strcpy(str2, temp);
+}
+
 int main(){
 	// Task1 - Enter student number
     int number;
@@ -52,6 +68,7 @@ int main(){
     }
 
 	//Task3 - print student list
+    printf("\nStudents list: \n");
     printf("| %-10s | %-20s | %-10s | %-7s | %-8s | %-16s | %-5s |\n",
            "ID", "Full Name", "Birthdate", "Algebra", "Calculus", "Basic Programming", "GPA");
     printf("|%s|\n", "-------------------------------------------------------------------------------------------------");
@@ -106,7 +123,7 @@ int main(){
         }
     }
 
-    printf("The student with the highest GPA: %s - %s - GPA: %.2f\n",
+    printf("\nThe student with the highest GPA: %s - %s - GPA: %.2f\n",
                students[kh].fullName,
                students[kh].ID,
                students[kh].GPA);
@@ -129,42 +146,48 @@ int main(){
         }
     }
 
+    printf("\n");
+
     for (int i = 0; i < number; i++) {
         printf("%s's last name is %s\n", students[i].fullName, students[i].lastName);
     }
 
-    //Task10 - sort GPA
-    float arr[number];
-
-    for (int i = 0; i < number; i++)
-    {
-        arr[i] = students[i].GPA;
-    }
-
+    //Task10 - sort GPA (selection sort)
     for (int step = 0; step < (number - 1); step++)
     {
-        float max = arr[step];
+        float max = students[step].GPA;
         int p = step;
         for (int j = (step+1); j < number; j++)
         {
-            if (max < arr[j])
+            if (max < students[j].GPA)
             {
-                max = arr[j];
+                max = students[j].GPA;
                 p = j;
             }
         }
         if (p != step)
             {
-                float s = arr[step];
-                arr[step] = max;
-                arr[p] = s;
+                swapfloat(&students[step].GPA, &students[p].GPA);
+                swapstr(students[step].fullName, students[p].fullName);
+                swapstr(students[step].ID, students[p].ID);
+                swapstr(students[step].birthDate, students[p].birthDate);
+                swapfloat(&students[step].algebra, &students[p].algebra);
+                swapfloat(&students[step].calculus, &students[p].calculus);
+                swapfloat(&students[step].basicProgramming, &students[p].basicProgramming);
             }
     }
 
-    printf("GPA list in decreasing order: ");
-    for (int i = 0; i < number; i++)
-    {
-        printf("%.2f ", arr[i]);
+    printf("\nStudents list in GPA decreasing order: \n");
+    for (int i = 0; i < number; i++) {
+        students[i].GPA = (students[i].algebra + students[i].calculus + students[i].basicProgramming)/3;
+        printf("| %10s | %-20s | %10s | %7.2f | %8.2f | %17.2f | %4.2f |\n",
+               students[i].ID,
+               students[i].fullName,
+               students[i].birthDate,
+               students[i].algebra,
+               students[i].calculus,
+               students[i].basicProgramming,
+               students[i].GPA);
     }
     return 0;
 }
