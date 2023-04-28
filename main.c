@@ -14,5 +14,15 @@ struct studentInfo{
 };
 
 int main(){
+	// Task1 - Enter student number
+    int studentNum;
+    printf("Enter the number of students: ");
+    scanf("%d", &studentNum);
+
+    while(studentNum > 1000) {
+        printf("Your number is too high. Maximum number of student is 1000. Please enter again: ");
+        scanf("%d", &studentNum);
+    }
+
 	return 0;
 }
