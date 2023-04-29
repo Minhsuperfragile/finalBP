@@ -4,7 +4,7 @@
 #include <stdbool.h>
 
 struct studentInfo{
-	char fullName[50];
+	char fullName[60];
     char lastName[20];
 	char ID[10];
 	char birthDate[11];
@@ -14,6 +14,99 @@ struct studentInfo{
 	float GPA;
 };
 
+//print table
+void print_table (struct studentInfo *students, int i, int number) {
+    printf("| %-10s | %-30s | %-10s | %-7s | %-8s | %-16s | %-5s |\n",
+           "ID", "Full Name", "Birthdate", "Algebra", "Calculus", "Basic Programming", "GPA");
+    printf("|%s|\n", "-----------------------------------------------------------------------------------------------------------");
+
+    for (int i = 0; i < number; i++) {
+        printf("| %10s | %-30s | %10s | %7.2f | %8.2f | %17.2f | %4.2f |\n",
+               students[i].ID,
+               students[i].fullName,
+               students[i].birthDate,
+               students[i].algebra,
+               students[i].calculus,
+               students[i].basicProgramming,
+               students[i].GPA);
+    }
+}
+
+//highest score
+void highest_score (struct studentInfo *students, int i, int number, int kh, char name[50]) {
+    float score;
+    float highestScore;
+    for (int i = 0; i < number; i++) {
+        if (name == "GPA") {
+            score = students[i].GPA;
+        }
+        else if (name == "basicProgramming") {
+            score = students[i].basicProgramming;
+        }
+        else if (name == "algebra") {
+            score = students[i].algebra;
+        }
+        else if (name == "calculus") {
+            score = students[i].calculus;
+        }
+
+        if (highestScore < score) {
+            highestScore = score;
+            kh = i;
+        }
+    }
+    printf("The student with the highest %s: %s - %s - %s: %.2f\n",
+            name,
+            students[kh].fullName,
+            students[kh].ID,
+            name,
+            highestScore);
+}
+
+// lowest score
+void lowest_score (struct studentInfo *students, int i, int number, int kl, char name[50]) {
+    float score;
+    float lowestScore;
+    for (int i = 0; i < number; i++) {
+        if (name == "GPA") {
+            score = students[i].GPA;
+        }
+        else if (name == "basicProgramming") {
+            score = students[i].basicProgramming;
+        }
+        else if (name == "algebra") {
+            score = students[i].algebra;
+        }
+        else if (name == "calculus") {
+            score = students[i].calculus;
+        }
+
+        if (lowestScore > score) {
+            lowestScore = score;
+            kl = i;
+        }
+    }
+    printf("The student with the lowest %s: %s - %s - %s: %.2f\n",
+            name,
+            students[kl].fullName,
+            students[kl].ID,
+            name,
+            lowestScore);
+}
+
+//print last name
+void print_lastname (struct studentInfo *students, int i, int number) {
+    for (int i = 0; i < number; i++) {
+        char *last_space = strrchr(students[i].fullName, ' ');
+        if (last_space != NULL) {
+            strcpy(students[i].lastName, last_space + 1);
+        }
+    }
+    for (int i = 0; i < number; i++) {
+        printf("%s's last name is %s\n", students[i].fullName, students[i].lastName);
+    }   
+}
+
 //swap structure
 void swap_students(struct studentInfo *students, int i, int p) {
     struct studentInfo temp = students[i];
@@ -21,9 +114,31 @@ void swap_students(struct studentInfo *students, int i, int p) {
     students[p] = temp;
 }
 
+//selection sort GPA 
+void sort_GPA(struct studentInfo *students, int i, int number) {
+    for (int step = 0; step < (number - 1); step++)
+    {
+        float max = students[step].GPA;
+        int p = step;
+        for (int j = (step+1); j < number; j++)
+        {
+            if (max < students[j].GPA)
+            {
+                max = students[j].GPA;
+                p = j;
+            }
+        }
+        if (p != step)
+            {
+                swap_students(students, step, p);
+            }
+    }
+}
+
 int main(){
 	// Task1 - Enter student number
     int number;
+    int i;
     printf("Enter the number of students: ");
     scanf("%d", &number);
 
@@ -35,7 +150,7 @@ int main(){
 	//Task2 - get student info
 	struct studentInfo students[number];
     
-    for (int i = 0; i < number; i++) {
+    for (i = 0; i < number; i++) {
 		printf("\nEnter data for student %d:\n", i+1);
         printf("Enter student %d name: ", i+1);
 		getchar(); // consume the newline character left in the input stream
@@ -56,27 +171,15 @@ int main(){
         
         printf("Enter student %d Basic Programming point: ", i+1);
         scanf("%f", &students[i].basicProgramming);
-    }
 
-	//Task3 - print student list
-    printf("\nStudents list: \n");
-    printf("| %-10s | %-20s | %-10s | %-7s | %-8s | %-16s | %-5s |\n",
-           "ID", "Full Name", "Birthdate", "Algebra", "Calculus", "Basic Programming", "GPA");
-    printf("|%s|\n", "-------------------------------------------------------------------------------------------------");
-
-    for (int i = 0; i < number; i++) {
         students[i].GPA = (students[i].algebra + students[i].calculus + students[i].basicProgramming)/3;
-        printf("| %10s | %-20s | %10s | %7.2f | %8.2f | %17.2f | %4.2f |\n",
-               students[i].ID,
-               students[i].fullName,
-               students[i].birthDate,
-               students[i].algebra,
-               students[i].calculus,
-               students[i].basicProgramming,
-               students[i].GPA);
     }
 
-	//Task4 - print in text file
+    //Task3 - print student list
+    printf("\nStudents list: \n");
+    print_table(students, i, number);
+
+    //Task4 - print in text file
     FILE *studentList = fopen("D:\\Nhi Ari\\Code\\C\\Uni\\Final\\studentList.txt", "w");
     fprintf(studentList, "| %-10s | %-20s | %-10s | %-7s | %-8s | %-16s | %-5s |\n",
            "ID", "Full Name", "Birthdate", "Algebra", "Calculus", "Basic Programming", "GPA");
@@ -93,85 +196,21 @@ int main(){
                students[i].basicProgramming,
                students[i].GPA);
     }
-
     fclose(studentList);
 
     //Task5 - highest, lowest GPA, highest BP
-    float highestGPA = 0, lowestGPA = 20, highestBP = 0;
-    int kh, kl, j;
-    for (int i = 0; i < number; i++) {
-        if (highestGPA < students[i].GPA) {
-            highestGPA = students[i].GPA;
-            kh = i;
-        }
-        if (lowestGPA > students[i].GPA) {
-            lowestGPA = students[i].GPA;
-            kl = i;
-        }
-        if (highestBP < students[i].basicProgramming) {
-            highestBP = students[i].basicProgramming;
-            j = i;
-        }
-    }
+    int kh, kl;
+    printf("\n");    
+    highest_score (students, i, number, kh, "GPA");
+    lowest_score (students, i, number, kl, "GPA");
+    highest_score (students, i, number, kh, "basicProgramming");
 
-    printf("\nThe student with the highest GPA: %s - %s - GPA: %.2f\n",
-               students[kh].fullName,
-               students[kh].ID,
-               students[kh].GPA);
-	
-    printf("The student with the lowest GPA: %s - %s - GPA: %.2f\n",
-               students[kl].fullName,
-               students[kl].ID,
-               students[kl].GPA);
-
-    printf("The student with the highest Basic Programming score: %s - %s - GPA: %.2f\n",
-               students[j].fullName,
-               students[j].ID,
-               students[j].basicProgramming);
-    
     //Task6 - print last name
-    for (int i = 0; i < number; i++) {
-        char *last_space = strrchr(students[i].fullName, ' ');
-        if (last_space != NULL) {
-            strcpy(students[i].lastName, last_space + 1);
-        }
-    }
-
     printf("\n");
-
-    for (int i = 0; i < number; i++) {
-        printf("%s's last name is %s\n", students[i].fullName, students[i].lastName);
-    }
+    print_lastname (students, i, number);
 
     //Task10 - sort GPA (selection sort)
-    for (int step = 0; step < (number - 1); step++)
-    {
-        float max = students[step].GPA;
-        int p = step;
-        for (int j = (step+1); j < number; j++)
-        {
-            if (max < students[j].GPA)
-            {
-                max = students[j].GPA;
-                p = j;
-            }
-        }
-        if (p != step)
-            {
-                swap_students(students, step, p);
-            }
-    }
-
+    sort_GPA(students, i, number);
     printf("\nStudents list in GPA decreasing order: \n");
-    for (int i = 0; i < number; i++) {
-        printf("| %10s | %-20s | %10s | %7.2f | %8.2f | %17.2f | %4.2f |\n",
-               students[i].ID,
-               students[i].fullName,
-               students[i].birthDate,
-               students[i].algebra,
-               students[i].calculus,
-               students[i].basicProgramming,
-               students[i].GPA);
-    }
-    return 0;
+    print_table (students, i, number);
 }
