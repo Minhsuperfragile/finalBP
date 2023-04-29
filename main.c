@@ -56,33 +56,43 @@ int main(){
 	struct studentInfo students[number];
     
     for (int i = 0; i < number; i++) {
+		printf("\nEnter data for student %d:\n", i+1);
         printf("Enter student %d name: ", i+1);
+		getchar(); // consume the newline character left in the input stream
         fgets(students[i].fullName, sizeof(students[i].fullName), stdin); //use fgets instead of scanf
         students[i].fullName[strcspn(students[i].fullName, "\n")] = 0; // Remove trailing newline
  
         printf("Enter student %d ID: ", i+1);
         scanf("%s", students[i].ID);
-        getchar(); // consume the newline character left in the input stream
-
+        
         printf("Enter student %d birthdate: ", i+1);
         scanf("%s", students[i].birthDate);
-        getchar();
-
+       
         printf("Enter student %d Linear Algebra point: ", i+1);
         scanf("%f", &students[i].algebra);
-        getchar();
-
+        
         printf("Enter student %d Calculus point: ", i+1);
         scanf("%f", &students[i].calculus);
-        getchar();
         
         printf("Enter student %d Basic Programming point: ", i+1);
         scanf("%f", &students[i].basicProgramming);
-        getchar(); // consume the newline character left in the input stream
-        
-        printf("Enter student %d GPA: ", i+1);
-        scanf("%f", &students[i].GPA);
-        getchar(); // consume the newline character left in the input stream
+    }
+
+	//Task3 - print student list
+    printf("| %-10s | %-20s | %-10s | %-7s | %-8s | %-16s | %-5s |\n",
+           "ID", "Full Name", "Birthdate", "Algebra", "Calculus", "Basic Programming", "GPA");
+    printf("|%s|\n", "-------------------------------------------------------------------------------------------------");
+
+    for (int i = 0; i < number; i++) {
+        students[i].GPA = (students[i].algebra + students[i].calculus + students[i].basicProgramming)/3;
+        printf("| %10s | %-20s | %10s | %7.2f | %8.2f | %17.2f | %4.2f |\n",
+               students[i].ID,
+               students[i].fullName,
+               students[i].birthDate,
+               students[i].algebra,
+               students[i].calculus,
+               students[i].basicProgramming,
+               students[i].GPA);
     }
     // Task 5
     struct studentInfo highest_gpa_student = highest_gpa(students, number);
