@@ -27,7 +27,7 @@ void print_studentinfo (struct studentInfo *students, int i) {
 }
 
 //print table
-void print_table (struct studentInfo *students, int i, int number) {
+void print_table (struct studentInfo *students, int number) {
     printf("| %-10s | %-30s | %-10s | %-7s | %-8s | %-16s | %-5s |\n",
            "ID", "Full Name", "Birthdate", "Algebra", "Calculus", "Basic Programming", "GPA");
     printf("|%s|\n", "-----------------------------------------------------------------------------------------------------------");
@@ -38,7 +38,7 @@ void print_table (struct studentInfo *students, int i, int number) {
 }
 
 //highest GPA score
-void highest_GPA (struct studentInfo *students, int i, int number) {
+void highest_GPA (struct studentInfo *students, int number) {
     int kh;
     float highestGPA = 0;
     for (int i = 0; i < number; i++) {
@@ -52,7 +52,7 @@ void highest_GPA (struct studentInfo *students, int i, int number) {
 }
 
 // lowest GPA score
-void lowest_GPA (struct studentInfo *students, int i, int number) {
+void lowest_GPA (struct studentInfo *students, int number) {
     int kl; 
     float lowestGPA = 20;
     for (int i = 0; i < number; i++) {
@@ -66,7 +66,7 @@ void lowest_GPA (struct studentInfo *students, int i, int number) {
 }
 
 //highest BP score
-void highest_BP (struct studentInfo *students, int i, int number) {
+void highest_BP (struct studentInfo *students, int number) {
     int kh; 
     float highestBP = 0;
     for (int i = 0; i < number; i++) {
@@ -80,7 +80,7 @@ void highest_BP (struct studentInfo *students, int i, int number) {
 }
 
 //print last name
-void print_lastname (struct studentInfo *students, int i, int number) {
+void print_lastname (struct studentInfo *students, int number) {
     for (int i = 0; i < number; i++) {
         char *last_space = strrchr(students[i].fullName, ' ');
         if (last_space != NULL) {
@@ -100,7 +100,7 @@ void swap_students(struct studentInfo *students, int i, int p) {
 }
 
 //selection sort GPA 
-void sort_GPA(struct studentInfo *students, int i, int number) {
+void sort_GPA(struct studentInfo *students, int number) {
     for (int step = 0; step < (number - 1); step++)
     {
         float max = students[step].GPA;
@@ -123,7 +123,6 @@ void sort_GPA(struct studentInfo *students, int i, int number) {
 int main(){
 	// Task1 - Enter student number
     int number;
-    int i;
     printf("Enter the number of students: ");
     scanf("%d", &number);
 
@@ -135,7 +134,7 @@ int main(){
 	//Task2 - get student info
 	struct studentInfo students[number];
     
-    for (i = 0; i < number; i++) {
+    for (int i = 0; i < number; i++) {
 		printf("\nEnter data for student %d:\n", i+1);
         printf("Enter student %d name: ", i+1);
 		getchar(); // consume the newline character left in the input stream
@@ -162,7 +161,7 @@ int main(){
 
     //Task3 - print student list
     printf("\nStudents list: \n");
-    print_table(students, i, number);
+    print_table(students, number);
 
     //Task4 - print in text file
     FILE *studentList = fopen("D:\\Nhi Ari\\Code\\C\\Uni\\Final\\studentList.txt", "w");
@@ -185,16 +184,16 @@ int main(){
     //Task5 - highest, lowest GPA, highest BP
     int kh, kl;
     printf("\n");    
-    highest_GPA(students, i, number);
-    lowest_GPA(students, i, number);
-    highest_BP(students, i, number);
+    highest_GPA(students, number);
+    lowest_GPA(students, number);
+    highest_BP(students, number);
 
     //Task6 - print last name
     printf("\n");
-    print_lastname (students, i, number);
+    print_lastname (students, number);
 
     //Task10 - sort GPA (selection sort)
-    sort_GPA(students, i, number);
+    sort_GPA(students, number);
     printf("\nStudents list in GPA decreasing order: \n");
-    print_table (students, i, number);
+    print_table (students, number);
 }
