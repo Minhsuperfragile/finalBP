@@ -32,66 +32,37 @@ void print_table (struct studentInfo *students, int i, int number) {
     }
 }
 
-//highest score
-void highest_score (struct studentInfo *students, int i, int number, int kh, char name[50]) {
-    float score;
-    float highestScore;
+//highest GPA score
+void highest_GPA (struct studentInfo *students, int i, int number, int kh, float highestGPA) {
     for (int i = 0; i < number; i++) {
-        if (name == "GPA") {
-            score = students[i].GPA;
-        }
-        else if (name == "basicProgramming") {
-            score = students[i].basicProgramming;
-        }
-        else if (name == "algebra") {
-            score = students[i].algebra;
-        }
-        else if (name == "calculus") {
-            score = students[i].calculus;
-        }
-
-        if (highestScore < score) {
-            highestScore = score;
+        if (highestGPA < students[i].GPA) {
+            highestGPA = students[i].GPA;
             kh = i;
         }
     }
-    printf("The student with the highest %s: %s - %s - %s: %.2f\n",
-            name,
-            students[kh].fullName,
-            students[kh].ID,
-            name,
-            highestScore);
+    printf("\nThe student with the highest GPA: %s - %s - GPA: %.2f\n", students[kh].fullName, students[kh].ID, students[kh].GPA);
 }
 
-// lowest score
-void lowest_score (struct studentInfo *students, int i, int number, int kl, char name[50]) {
-    float score;
-    float lowestScore;
+// lowest GPA score
+void lowest_GPA (struct studentInfo *students, int i, int number, int kl, float lowestGPA) {
     for (int i = 0; i < number; i++) {
-        if (name == "GPA") {
-            score = students[i].GPA;
-        }
-        else if (name == "basicProgramming") {
-            score = students[i].basicProgramming;
-        }
-        else if (name == "algebra") {
-            score = students[i].algebra;
-        }
-        else if (name == "calculus") {
-            score = students[i].calculus;
-        }
-
-        if (lowestScore > score) {
-            lowestScore = score;
+        if (lowestGPA > students[i].GPA) {
+            lowestGPA = students[i].GPA;
             kl = i;
         }
     }
-    printf("The student with the lowest %s: %s - %s - %s: %.2f\n",
-            name,
-            students[kl].fullName,
-            students[kl].ID,
-            name,
-            lowestScore);
+    printf("The student with the lowest GPA: %s - %s - GPA: %.2f\n", students[kl].fullName, students[kl].ID, students[kl].GPA);
+}
+
+//highest BP score
+void highest_BP (struct studentInfo *students, int i, int number, int kh, float highestBP) {
+    for (int i = 0; i < number; i++) {
+        if (highestBP < students[i].basicProgramming) {
+            highestBP = students[i].basicProgramming;
+            kh = i;
+        }
+    }
+    printf("The student with the highest Basic Programming score: %s - %s - Basic Programming: %.2f\n", students[kh].fullName, students[kh].ID, students[kh].basicProgramming);
 }
 
 //print last name
@@ -201,9 +172,9 @@ int main(){
     //Task5 - highest, lowest GPA, highest BP
     int kh, kl;
     printf("\n");    
-    highest_score (students, i, number, kh, "GPA");
-    lowest_score (students, i, number, kl, "GPA");
-    highest_score (students, i, number, kh, "basicProgramming");
+    highest_GPA(students, i, number, kh, 0);
+    lowest_GPA(students, i, number, kl, 20);
+    highest_BP(students, i, number, kh, 0);
 
     //Task6 - print last name
     printf("\n");
